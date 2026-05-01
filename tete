@@ -908,19 +908,20 @@ BuildBtn.MouseButton1Click:Connect(function()
         local container = miT:WaitForChild("FurnitureContainer")
         local WebSocket = require(ReplicatedStorage.Modules.WebSocket)
 
+
         while bloqueActualIndex <= #datosCasaMemoria do
             if construccionPausada then break end
-            
+
             local i = bloqueActualIndex
             local data = datosCasaMemoria[i]
 
             StatusLabel.Text = "Procesando: " .. i .. " / " .. #datosCasaMemoria .. "\n(" .. data.Nombre .. ")"
             StatusLabel.TextColor3 = Color3.fromRGB(0, 255, 150)
-            
+
             local nombreSeguro = tostring(data.Nombre)
-            local cframeSeguro = miBase.CFrame * data.CFrameRelativo 
-            local sizeSeguro = data.Size 
-            
+            local cframeSeguro = miBase.CFrame * data.CFrameRelativo
+            local sizeSeguro = data.Size
+
             local nuevoBloque = nil
             local conexion = container.ChildAdded:Connect(function(child)
                 task.defer(function()
@@ -929,23 +930,23 @@ BuildBtn.MouseButton1Click:Connect(function()
                     end
                 end)
             end)
-            
+
             local idMuebleDirecto = nil
             task.spawn(function()
                 pcall(function()
                     idMuebleDirecto = WebSocket.callRemote("PlotSystem", "placeFurn", nombreSeguro, cframeAnclaje)
                 end)
             end)
-            
+
             local tiempoEspera = 0
             while not nuevoBloque and tiempoEspera < 3 do
                 task.wait(0.1)
                 tiempoEspera = tiempoEspera + 0.1
             end
             conexion:Disconnect()
-            
-            task.wait(0.4) 
-            
+
+            task.wait(0.4)
+
             if type(idMuebleDirecto) == "string" and #idMuebleDirecto > 20 then
                 task.spawn(function()
                     pcall(function()
@@ -986,8 +987,9 @@ BuildBtn.MouseButton1Click:Connect(function()
                     end
                 end
             end
-            
-            task.wait(0.8) 
+
+            -- Espera 3 segundos entre cada bloque para evitar kick
+            task.wait(3)
 
             if not construccionPausada then
                 bloqueActualIndex = bloqueActualIndex + 1
