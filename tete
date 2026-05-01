@@ -989,7 +989,7 @@ BuildBtn.MouseButton1Click:Connect(function()
             end
 
             -- Espera 3 segundos entre cada bloque para evitar kick
-            task.wait(3)
+            task.wait(5)
 
             if not construccionPausada then
                 bloqueActualIndex = bloqueActualIndex + 1
