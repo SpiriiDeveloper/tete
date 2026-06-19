@@ -1,10 +1,10 @@
--- GUI: Spirii | Version: V104 Elite (Cross-Platform Xeno & Delta)
+-- GUI: Codeby | Version: V104 Elite (Cross-Platform Xeno & Delta)
 -- Bases INTACTAS: JSON Auto-Save + Abajo->Arriba + Ensamblador 1x1 + Hook Crudo
 
 -- ==========================================
 -- [!] CAPA DE COMPATIBILIDAD UNIVERSAL (XENO / DELTA)
 -- ==========================================
-local SpiriiIO = {
+local CodebyIO = {
     Write = writefile or (getgenv and getgenv().writefile),
     Read = readfile or (getgenv and getgenv().readfile),
     IsFile = isfile or (getgenv and getgenv().isfile),
@@ -22,8 +22,8 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 local datosCasaMemoria = {}
-local nombreArchivo = "SpiriiHouseData.json"
-local nombreProgreso = "SpiriiProgress.txt"
+local nombreArchivo = "CodebyHouseData.json"
+local nombreProgreso = "CodebyProgress.txt"
 
 -- [ VARIABLES DEL MOTOR UNIVERSAL ]
 local bloqueActualIndex = 1
@@ -36,7 +36,7 @@ local cframeAnclaje = nil
 local capturandoPintura = false
 
 -- ==========================================
--- GUI Spirii ELITE V104
+-- GUI CODEBY ELITE V104
 -- ==========================================
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
@@ -56,20 +56,20 @@ local Corner = Instance.new("UICorner")
 local CloseBtn = Instance.new("TextButton")
 local OpenBtn = Instance.new("TextButton")
 
-if game:GetService("CoreGui"):FindFirstChild("Spirii") then
-    game:GetService("CoreGui").Spirii:Destroy()
+if game:GetService("CoreGui"):FindFirstChild("Codeby") then
+    game:GetService("CoreGui").Codeby:Destroy()
 end
 
-ScreenGui.Name = "Spirii"
+ScreenGui.Name = "Codeby"
 ScreenGui.Parent = game:GetService("CoreGui")
 ScreenGui.ResetOnSpawn = false
 
-OpenBtn.Name = "OpenSpirii"
+OpenBtn.Name = "OpenCodeby"
 OpenBtn.Parent = ScreenGui
 OpenBtn.Size = UDim2.new(0, 80, 0, 30)
 OpenBtn.Position = UDim2.new(0, 10, 0.5, 0)
 OpenBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 255)
-OpenBtn.Text = "By:Spirii"
+OpenBtn.Text = "By:Codeby"
 OpenBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 OpenBtn.Font = Enum.Font.GothamBold
 OpenBtn.Visible = false
@@ -90,7 +90,7 @@ Title.Parent = MainFrame
 Title.BackgroundTransparency = 1
 Title.Size = UDim2.new(1, 0, 0, 40)
 Title.Font = Enum.Font.GothamBold
-Title.Text = "Spirii versión gratuita"
+Title.Text = "Codeby versión gratuita"
 Title.TextColor3 = Color3.fromRGB(150, 0, 255)
 Title.TextSize = 18
 
@@ -179,7 +179,7 @@ StatusLabel.Parent = MainFrame
 StatusLabel.BackgroundTransparency = 1
 StatusLabel.Position = UDim2.new(0, 0, 0.86, 0)
 StatusLabel.Size = UDim2.new(1, 0, 0, 45)
-StatusLabel.Text = "Esperando acción... | By:Spirii"
+StatusLabel.Text = "Esperando acción... | By:Codeby"
 StatusLabel.TextColor3 = Color3.fromRGB(0, 170, 255)
 StatusLabel.Font = Enum.Font.Gotham
 StatusLabel.TextWrapped = true
@@ -188,7 +188,7 @@ CloseBtn.MouseButton1Click:Connect(function() MainFrame.Visible = false; OpenBtn
 OpenBtn.MouseButton1Click:Connect(function() MainFrame.Visible = true; OpenBtn.Visible = false end)
 
 -- ==========================================
--- [ BIBLIOTECA DE COLORES ELITE Spirii ]
+-- [ BIBLIOTECA DE COLORES ELITE CODEBY ]
 -- ==========================================
 local EliteColors = {
     ["Emotes"] = Color3.fromRGB(89, 93, 173),
@@ -344,7 +344,7 @@ local function getClosestColorName(targetColor)
 end
 
 -- ==========================================
--- [ Spirii DATA MAP ] (Intacto)
+-- [ CODEBY DATA MAP ] (Intacto)
 -- ==========================================
 local MenuModels = {
     ["Bombillograndote"] = {Mesh = "rbxassetid://80763177000182", Transp = 0.00, RGB = {253, 234, 141}},
@@ -738,10 +738,10 @@ ScanBtn.MouseButton1Click:Connect(function()
             end
             if i % 20 == 0 then task.wait() end 
         end
-        if SpiriiIO.Write then
+        if CodebyIO.Write then
             local jsonCodificado = HttpService:JSONEncode(exportData)
-            SpiriiIO.Write(nombreArchivo, jsonCodificado)
-            SpiriiIO.Write(nombreProgreso, "1")
+            CodebyIO.Write(nombreArchivo, jsonCodificado)
+            CodebyIO.Write(nombreProgreso, "1")
             bloqueActualIndex = 1
             BuildBtn.Text = "4. CONSTRUIR 1x1"
             StatusLabel.Text = "¡Guardado Inteligente!"
@@ -752,8 +752,8 @@ end)
 
 LoadBtn.MouseButton1Click:Connect(function()
     task.spawn(function()
-        if SpiriiIO.Read and SpiriiIO.IsFile and SpiriiIO.IsFile(nombreArchivo) then
-            local jsonDecodificado = SpiriiIO.Read(nombreArchivo)
+        if CodebyIO.Read and CodebyIO.IsFile and CodebyIO.IsFile(nombreArchivo) then
+            local jsonDecodificado = CodebyIO.Read(nombreArchivo)
             local rawData = HttpService:JSONDecode(jsonDecodificado)
             datosCasaMemoria = {}
             for _, v in ipairs(rawData) do
@@ -777,8 +777,8 @@ LoadBtn.MouseButton1Click:Connect(function()
                 else return posA.Z < posB.Z end
             end)
 
-            if SpiriiIO.IsFile(nombreProgreso) then
-                local savedProg = tonumber(SpiriiIO.Read(nombreProgreso))
+            if CodebyIO.IsFile(nombreProgreso) then
+                local savedProg = tonumber(CodebyIO.Read(nombreProgreso))
                 if savedProg and savedProg > 1 and savedProg <= #datosCasaMemoria then
                     bloqueActualIndex = savedProg
                     BuildBtn.Text = "REANUDAR CONSTRUCCION"
@@ -908,20 +908,19 @@ BuildBtn.MouseButton1Click:Connect(function()
         local container = miT:WaitForChild("FurnitureContainer")
         local WebSocket = require(ReplicatedStorage.Modules.WebSocket)
 
-
         while bloqueActualIndex <= #datosCasaMemoria do
             if construccionPausada then break end
-
+            
             local i = bloqueActualIndex
             local data = datosCasaMemoria[i]
 
             StatusLabel.Text = "Procesando: " .. i .. " / " .. #datosCasaMemoria .. "\n(" .. data.Nombre .. ")"
             StatusLabel.TextColor3 = Color3.fromRGB(0, 255, 150)
-
+            
             local nombreSeguro = tostring(data.Nombre)
-            local cframeSeguro = miBase.CFrame * data.CFrameRelativo
-            local sizeSeguro = data.Size
-
+            local cframeSeguro = miBase.CFrame * data.CFrameRelativo 
+            local sizeSeguro = data.Size 
+            
             local nuevoBloque = nil
             local conexion = container.ChildAdded:Connect(function(child)
                 task.defer(function()
@@ -930,34 +929,34 @@ BuildBtn.MouseButton1Click:Connect(function()
                     end
                 end)
             end)
-
+            
             local idMuebleDirecto = nil
             task.spawn(function()
                 pcall(function()
                     idMuebleDirecto = WebSocket.callRemote("PlotSystem", "placeFurn", nombreSeguro, cframeAnclaje)
                 end)
             end)
-
+            
             local tiempoEspera = 0
             while not nuevoBloque and tiempoEspera < 3 do
                 task.wait(0.1)
                 tiempoEspera = tiempoEspera + 0.1
             end
             conexion:Disconnect()
-
-            task.wait(0.4)
-
+            
+            task.wait(0.4) 
+            
             if type(idMuebleDirecto) == "string" and #idMuebleDirecto > 20 then
                 task.spawn(function()
                     pcall(function()
                         WebSocket.callRemote("PlotSystem", "scaleFurniture", idMuebleDirecto, cframeSeguro, sizeSeguro)
                     end)
                 end)
-                if nuevoBloque then nuevoBloque:SetAttribute("SpiriiAutoScaled", true) end
+                if nuevoBloque then nuevoBloque:SetAttribute("CodebyAutoScaled", true) end
             elseif nuevoBloque then
                 local idMueble = nuevoBloque:GetAttribute("Id")
                 if idMueble then
-                    nuevoBloque:SetAttribute("SpiriiAutoScaled", true)
+                    nuevoBloque:SetAttribute("CodebyAutoScaled", true)
                     task.spawn(function()
                         pcall(function()
                             WebSocket.callRemote("PlotSystem", "scaleFurniture", tostring(idMueble), cframeSeguro, sizeSeguro)
@@ -967,14 +966,14 @@ BuildBtn.MouseButton1Click:Connect(function()
             else
                 for _, mueble in ipairs(container:GetChildren()) do
                     local distAnclaje = (mueble:GetPivot().Position - cframeAnclaje.Position).Magnitude
-                    if distAnclaje < 15 and not mueble:GetAttribute("SpiriiAutoScaled") then
+                    if distAnclaje < 15 and not mueble:GetAttribute("CodebyAutoScaled") then
                         local p = obtenerParteVisible(mueble)
                         if p then
                             local nombreMueble = identificarModeloExacto(mueble, p)
                             if nombreMueble == data.Nombre then
                                 local idMueble = mueble:GetAttribute("Id")
                                 if idMueble then
-                                    mueble:SetAttribute("SpiriiAutoScaled", true)
+                                    mueble:SetAttribute("CodebyAutoScaled", true)
                                     task.spawn(function()
                                         pcall(function()
                                             WebSocket.callRemote("PlotSystem", "scaleFurniture", tostring(idMueble), cframeSeguro, sizeSeguro)
@@ -987,14 +986,13 @@ BuildBtn.MouseButton1Click:Connect(function()
                     end
                 end
             end
-
-            -- Espera 3 segundos entre cada bloque para evitar kick
-            task.wait(10)
+            
+            task.wait(0.8) 
 
             if not construccionPausada then
                 bloqueActualIndex = bloqueActualIndex + 1
-                if bloqueActualIndex % 5 == 0 and SpiriiIO.Write then
-                    SpiriiIO.Write(nombreProgreso, tostring(bloqueActualIndex))
+                if bloqueActualIndex % 5 == 0 and CodebyIO.Write then
+                    CodebyIO.Write(nombreProgreso, tostring(bloqueActualIndex))
                 end
             end
         end
@@ -1007,11 +1005,11 @@ BuildBtn.MouseButton1Click:Connect(function()
             StatusLabel.TextColor3 = Color3.fromRGB(255, 200, 0)
             BuildBtn.Text = "REANUDAR CONSTRUCCION"
         else
-            StatusLabel.Text = "¡CASA CONSTRUIDA By:Spirii!"
+            StatusLabel.Text = "¡CASA CONSTRUIDA By:Codeby!"
             StatusLabel.TextColor3 = Color3.fromRGB(150, 255, 150)
             BuildBtn.Text = "4. CONSTRUIR 1x1"
             bloqueActualIndex = 1 
-            if SpiriiIO.Write then SpiriiIO.Write(nombreProgreso, "1") end
+            if CodebyIO.Write then CodebyIO.Write(nombreProgreso, "1") end
         end
     end)
 end)
@@ -1056,12 +1054,12 @@ local function iniciarAutoPintura()
 
         for _, mueble in ipairs(container:GetChildren()) do
             local dist = (mueble:GetPivot().Position - posFinal.Position).Magnitude
-            if dist < 15 and not mueble:GetAttribute("SpiriiAutoPainted") then
+            if dist < 15 and not mueble:GetAttribute("CodebyAutoPainted") then
                 local p = obtenerParteVisible(mueble)
                 if p then
                     local nombreMueble = identificarModeloExacto(mueble, p)
                     if nombreMueble == data.Nombre then
-                        mueble:SetAttribute("SpiriiAutoPainted", true)
+                        mueble:SetAttribute("CodebyAutoPainted", true)
                         local eliteColor = EliteColors[data.ColorName] or Color3.new(1,1,1)
                         
                         local targetPaint = obtenerParteParaPintar(mueble)
@@ -1093,7 +1091,7 @@ local function iniciarAutoPintura()
         StatusLabel.TextColor3 = Color3.fromRGB(255, 200, 0)
         PaintExecBtn.Text = "REANUDAR PINTURA"
     else
-        StatusLabel.Text = "¡CASA PINTADA By:Spirii!"
+        StatusLabel.Text = "¡CASA PINTADA By:Codeby!"
         StatusLabel.TextColor3 = Color3.fromRGB(255, 100, 200)
         PaintExecBtn.Text = "6. AUTO-PINTAR CASA"
         PaintScanBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 150)
